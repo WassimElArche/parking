@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Place;
+use App\Models\User;
+
+class reservation extends Model
+{
+    public function places(){
+        return $this->belongsTo(Place::class,'place_id');
+    }
+
+    public function users(){
+        return $this->belongsTo(User::class,'user_id');
+    }
+}

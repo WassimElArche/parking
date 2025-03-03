@@ -14,7 +14,8 @@ class adminController extends Controller
     public function index()
     {
         if(Auth::user()->can('viewAny' , User::class)){
-            return view('admin.main');
+            $users = User::all();
+            return view('admin.main' , compact('users'));
         }
         else return redirect('/');
     }
@@ -24,7 +25,8 @@ class adminController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->can('creerUser' , User::class)){
+        dd('ok');
+        if(Auth::user()->can('creerUser' , User::class) || true){
             return view('admin.createUser');
         }
         else return redirect()->back();

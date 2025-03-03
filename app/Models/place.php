@@ -10,4 +10,6 @@ class place extends Model
     public function reservations(){
         return $this->hasMany(User::class,'place_id');
     }
+
+    protected $fillable =  ['libellePlace'];
 }

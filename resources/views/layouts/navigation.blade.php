@@ -16,12 +16,13 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 @can('creerUser' , Auth::user())
-                <x-nav-link href="/admin/create" :active="request()->routeIs('dashboard')">
-                        {{ __('Créer des utilisateurs') }}
-                </x-nav-link>
 
                 <x-nav-link href="/places" :active="request()->routeIs('dashboard')">
                         {{ __('Gérer les places') }}
+                </x-nav-link>
+
+                <x-nav-link href="/admin/" :active="request()->routeIs('dashboard')">
+                        {{ __('Gérer les utilisateurs') }}
                 </x-nav-link>
                 @endcan
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\place;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class placeController extends Controller
@@ -14,7 +15,8 @@ class placeController extends Controller
     public function index()
     {
         if(Auth::user()->can('viewAny' , place::class)){
-            return view('place.main');
+            $places = place::All();
+            return view('place.main' , compact('places'));
         }
         else return redirect('/');
     }
@@ -24,7 +26,12 @@ class placeController extends Controller
      */
     public function create()
     {
-        //
+
+        if(Auth::user()->can('create' ,place::class )){
+            return view('place.create');
+        }
+        else return redirect()->back();
+        
     }
 
     /**
@@ -32,7 +39,11 @@ class placeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(Auth::user()->can('create' ,place::class )){
+        place::create($request->input());
+        return redirect('/places');
+    }
+    return redirect()->back();
     }
 
     /**

@@ -25,7 +25,7 @@ class adminController extends Controller
      */
     public function create()
     {
-        dd('ok');
+    
         if(Auth::user()->can('creerUser' , User::class) || true){
             return view('admin.createUser');
         }

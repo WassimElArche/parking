@@ -1,20 +1,19 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+@extends('/layouts/monLayout')
+
+
+@section('nom')
             {{ __('Places') }}
-        </h2>
-<br>
+@endsection
+
+@section('bouton')
         <a href="/places/create">
                 <x-primary-button class="mr-2">
-                    {{ __('Ajouter des utilisateurs') }}
+                    {{ __('Créer une place') }}
                 </x-primary-button>
             </a>
-    </x-slot>
+@endsection
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+@section('container')
                 <table class="min-w-full table-auto">
                     <thead>
                 <tr>
@@ -29,8 +28,4 @@
                         </center></td>
                     </tr>
                     @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
-</x-app-layout>
+@endsection

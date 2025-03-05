@@ -1,24 +1,10 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+@extends('/layouts/monLayout')
+
+@section('nom')
             {{ __("Créer des utilisateurs") }}
-        </h2>
-    </x-slot>
+@endsection
 
-    @if(session()->has('erreurMail'))
-    <div class="notification is-danger is-light">
-        <p>Aucun compte n'a été créé car certaines adresses e-mail sont invalides. Voici les adresses concernées :</p> <br>
-        <strong><p>
-        @foreach(session('erreurMail') as $mail)
-        {{ $mail }}<br>
-    @endforeach</p></strong>
-    </div>
-    @endif
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-
+@section('container')
     <form method="POST" action="/admin">
         @csrf
 
@@ -36,5 +22,4 @@
             </x-primary-button>
         </div>
     </form>
-
-</x-app-layout>
+@endsection

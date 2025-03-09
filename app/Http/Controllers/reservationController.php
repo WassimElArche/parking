@@ -3,24 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\place;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Models\place;
+use App\Models\reservation;
 
-class placeController extends Controller
+class reservationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-       
-
-        if(Auth::user()->can('viewAny' , place::class)){
-            $places = place::All();
-            return view('place.main' , compact('places'));
+        if(Auth::user()->isAdmin()){
+            $reservations = reservation::all();
         }
-        else return redirect('/');
+        else
+            $reservations = Auth::user()->reservations()->get();
+        return view('reservation.main' , compact('reservations'));
     }
 
     /**
@@ -28,12 +27,7 @@ class placeController extends Controller
      */
     public function create()
     {
-
-        if(Auth::user()->can('create' ,place::class )){
-            return view('place.create');
-        }
-        else return redirect()->back();
-        
+        //
     }
 
     /**
@@ -41,12 +35,7 @@ class placeController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::user()->can('create' ,place::class )){
-        place::create($request->input());
-        return redirect('/places');
-    }
-    
-    return redirect()->back();
+        //
     }
 
     /**

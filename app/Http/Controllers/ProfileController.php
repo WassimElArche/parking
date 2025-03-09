@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User;
+use App\Models\reservation;
 
 class ProfileController extends Controller
 {
@@ -19,6 +21,17 @@ class ProfileController extends Controller
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
+    }
+
+    public function espace(){
+
+        $user = Auth::user();
+        if($user->can('voirEspace' , User::class)){
+
+            $maplace = $user->reservations()->where('status','!=' , '-1')->first();
+            return view('employe.main' , compact('user' , 'maplace'));
+        }
+        else return redirect()->back();
     }
 
     /**

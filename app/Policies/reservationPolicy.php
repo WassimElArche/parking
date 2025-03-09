@@ -3,32 +3,25 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Models\reservation;
 use Illuminate\Auth\Access\Response;
 
-class UserPolicy
+class reservationPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->isAdmin();
-    }
-
-    public function creerUser(User $user){
-        return $user->isAdmin();
+        return false;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, User $model): bool
+    public function view(User $user, reservation $reservation): bool
     {
         return false;
-    }
-
-    public function voirEspace(User $user){
-        return true;
     }
 
     /**
@@ -36,13 +29,13 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;//!reservation::where('user_id' , $user->id)->where('status','!=' , '0')->exists();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, User $model): bool
+    public function update(User $user, reservation $reservation): bool
     {
         return false;
     }
@@ -50,7 +43,7 @@ class UserPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, User $model): bool
+    public function delete(User $user, reservation $reservation): bool
     {
         return false;
     }
@@ -58,7 +51,7 @@ class UserPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, User $model): bool
+    public function restore(User $user, reservation $reservation): bool
     {
         return false;
     }
@@ -66,7 +59,7 @@ class UserPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, User $model): bool
+    public function forceDelete(User $user, reservation $reservation): bool
     {
         return false;
     }

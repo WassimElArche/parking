@@ -17,6 +17,8 @@ return new class extends Migration
             $table->integer('place_id');
             $table->date('dateDeb');
             $table->date('dateExpiration');
+            $table->date('dateDemande');
+            $table->integer('status');
             $table->timestamps();
         });
     }

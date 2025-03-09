@@ -12,9 +12,11 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
+
+                <x-nav-link href="/mon-espace" :active="request()->routeIs('dashboard')">
+                        {{ __('Mon Espace') }}
+                </x-nav-link>
+
                 @can('creerUser' , Auth::user())
 
                 <x-nav-link href="/places" :active="request()->routeIs('dashboard')">
@@ -25,6 +27,11 @@
                         {{ __('Gérer les utilisateurs') }}
                 </x-nav-link>
                 @endcan
+
+                <x-nav-link href="/reservation/" :active="request()->routeIs('dashboard')">
+                        {{ __('Réservation') }}
+                </x-nav-link>
+
 
                 </div>
             </div>

@@ -52,8 +52,12 @@ class User extends Authenticatable
         return $this->role == 1;
     }
 
+    public function getFullName(){
+        return $this->nom . " " . $this->prenom;
+    }
+
     public function reservations(){
-        $this->hasMany(reservation::class);
+        return $this->hasMany(reservation::class);
     }
 
 }

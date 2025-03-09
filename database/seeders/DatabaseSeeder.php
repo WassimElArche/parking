@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\reservation;
+use App\Models\place;
+use Carbon\Carbon; 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -22,5 +25,23 @@ class DatabaseSeeder extends Seeder
             'password' => 'a',
             'role'=>1
         ]);
+
+        place::create([
+            'libellePlace' => "placeTest",
+        ]);
+
+
+        reservation::create([
+            'user_id' => 1 , 
+            'place_id' => 1,
+            'status' => 0,
+            'dateDeb' => '2020-12-12',
+            'dateExpiration' => '2020-12-12',
+            'dateDemande' => Carbon::now()->format('d-m-Y'),
+        ]);
+
+
+
+
     }
 }

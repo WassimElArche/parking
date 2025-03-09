@@ -26,6 +26,14 @@ class DatabaseSeeder extends Seeder
             'role'=>1
         ]);
 
+        User::factory()->create([
+            'nom' => 'test',
+            'prenom' => 'test',
+            'email' => 'b@b',
+            'password' => 'a',
+            'role'=> 0
+        ]);
+
         place::create([
             'libellePlace' => "placeTest",
         ]);

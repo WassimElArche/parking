@@ -29,7 +29,7 @@ class reservationPolicy
      */
     public function create(User $user): bool
     {
-        return true;//!reservation::where('user_id' , $user->id)->where('status','!=' , '0')->exists();
+        return !reservation::where('user_id' , $user->id)->where('status','=','0')->orWhere('status' ,'=' ,'1')->exists();
     }
 
     /**

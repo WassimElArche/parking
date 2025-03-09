@@ -9,7 +9,7 @@
     @can('create' , $reservations->first())
     <a href="/reservation/create" class="flex justify-end">
         <x-primary-button class="mr-2">
-            {{ __('Faire une réservation') }}
+            {{ __('Faire une demande de réservation') }}
         </x-primary-button>
     </a>
     @endcan

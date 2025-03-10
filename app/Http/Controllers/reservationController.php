@@ -58,6 +58,7 @@ class reservationController extends Controller
                 'status' => 1,
                 'dateDemande' => Carbon::now()->format('d-m-Y'),
                 'dateDeb' => Carbon::now()->format('d-m-Y'),
+                'dateExpiration' => Carbon::now()->addWeeks(3)->format('d-m-Y'),
             ]);
             $place->update(['status' => 'occuper']);
             return redirect('/mon-espace');

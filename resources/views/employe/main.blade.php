@@ -62,7 +62,7 @@
             <h3 class="text-xl font-semibold mb-4">Détails de votre réservation</h3>
             <p><strong>Numéro de la place:</strong> {{ $maplace->place_id }}</p>
             <p><strong>Date de début réservation:</strong> {{ $maplace->dateDeb}}</p>
-            <p><strong>Date de fin réservation:</strong> {{ $maplace->dateFin}}</p>
+            <p><strong>Date d'expiration de reservation:</strong> {{ $maplace->dateExpiration }}</p>
             
             <div class="flex justify-start mt-4 space-x-4">
                 <form action="/reservation/{{$maplace->id}}" method="post">

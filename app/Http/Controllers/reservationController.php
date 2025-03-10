@@ -100,7 +100,7 @@ class reservationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
+        $users = User::where('listeatt' , '>', $reservation->users->listeatt)->get();
         $reservation = reservation::find($id);
         if($request->has('resilier') && Auth::user()->can('resilier' , $reservation)){
             if($reservation->status == 1)
@@ -114,7 +114,6 @@ class reservationController extends Controller
             if($reservation->place_id != null)
                 place::find($reservation->place_id)->update(['status' => 'libre']);
             if($reservation->users->listeatt > 0){
-                $users = User::where('listeatt' , '>', $reservation->users->listeatt)->get();
                 foreach($users as $user){
                     
                     if($user->listeatt > 0){
@@ -125,7 +124,23 @@ class reservationController extends Controller
             }
             return redirect()->back();
         }
-    
+        
+        else if ($request->has('attribuer') && Auth::user()->can('attribuer' , $reservation)){
+            $place = place::where('status' , 'libre');
+            if($place->exists()){
+                $reservation->update([
+                    'place' =>  $place->first()->id,
+                ]);
+                $place->update(['status' => 'occuper']);
+                foreach($users as $user){
+                    if($user->listeatt > 0){
+                        $listeatt = $user->listeatt;
+                        $user->update(['listeatt' =>  intval($user->listeatt) - 1]);
+                    }
+            }
+        }
+        }
+        return redirect()->back();
     }
 
     /**

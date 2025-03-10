@@ -36,6 +36,10 @@ class reservationPolicy
         return $user->id == $reservation->user_id || $user->isAdmin();
     }
 
+    public function attribuer(User $user){
+        return $user->isAdmin();
+    }
+
 
     /**
      * Determine whether the user can update the model.

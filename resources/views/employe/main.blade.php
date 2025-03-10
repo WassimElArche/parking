@@ -28,8 +28,9 @@
      @if($maplace != null && $maplace->status == 0)
 
         <div class="alert alert-danger">
+            
                     Vous êtes en liste d'attente
-                    <br> Vous etes placé en position {{$maplace->users->id}}
+                    <br> Vous etes placé en position {{$maplace->users->listeatt}}
                 </div>
         <div class="bg-white p-6 rounded-lg shadow-sm">
             <h3 class="text-xl font-semibold mb-4">Détails de votre réservation</h3>

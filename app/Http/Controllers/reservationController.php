@@ -43,27 +43,26 @@ class reservationController extends Controller
         $dernierplace = User::max('listeatt');
         if($user->can('create' , reservation::class)){
             $place = place::where('status' , 'libre')->first();
-            
-            if($place != null && $dernierplace == null){
+            if($place != null && $dernierplace == 0){
             $user->reservations()->create([
                 'place_id' => $place->id,
                 'status' => 1,
                 'dateDemande' => Carbon::now()->format('d-m-Y'),
             ]);
+            $place->update(['status' => 'occuper']);
             return redirect('/mon-espace');
         }
         else{
             $user->reservations()->create([
-                'place_id' => $place->id,
                 'status' => 0,
                 'dateDemande' => Carbon::now()->format('d-m-Y'),
             ]);
             if($dernierplace == null)
-                $user->udpate(['listeatt' => 1]);
+                $user->update(['listeatt' => 1]);
             else
-                $user->udpate(['listeatt' => $dernierplace+1]);
-
+                $user->update(['listeatt' => intval($dernierplace)+1]);
         }
+        return redirect()->back();
         }
         else
             return redirect()->back()->withErrors(['interdit' => ' Message']);
@@ -91,10 +90,11 @@ class reservationController extends Controller
     public function update(Request $request, string $id)
     {
         
-        $place = reservation::find($id);
-        if($request->has('resilier') && Auth::user()->can('resilier' , $place)){
-            $place->update(['status' => -1]);
-            place::find($place->place_id)->update(['status' => 'libre']);
+        $reservation = reservation::find($id);
+        if($request->has('resilier') && Auth::user()->can('resilier' , $reservation)){
+            $reservation->update(['status' => -1]);
+            if($reservation->place_id != null)
+                place::find($reservation->place_id)->update(['status' => 'libre']);
             return redirect()->back();
         }
     

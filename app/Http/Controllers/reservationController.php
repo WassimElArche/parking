@@ -25,6 +25,19 @@ class reservationController extends Controller
         
     }
 
+
+    public function reservationpriseGet(){
+        if(Auth::user()->can('viewAny' , User::class)){
+            $reservations = reservation::where('status' , 1)->paginate(10);
+            return view('reservation.prise' , compact('reservations'));
+        }
+        
+    }
+
+    public function reservationprisePost(){
+        return "okKKK";
+    }
+
     /**
      * Show the form for creating a new resource.
      */

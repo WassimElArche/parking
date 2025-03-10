@@ -20,17 +20,24 @@
                 @can('creerUser' , Auth::user())
 
                 <x-nav-link href="/places" :active="request()->routeIs('dashboard')">
-                        {{ __('Gérer les places') }}
+                        {{ __('Places') }}
                 </x-nav-link>
 
                 <x-nav-link href="/admin/" :active="request()->routeIs('dashboard')">
-                        {{ __('Gérer les utilisateurs') }}
+                        {{ __('Utilisateurs') }}
                 </x-nav-link>
-                @endcan
-
+                
                 <x-nav-link href="/reservation/" :active="request()->routeIs('dashboard')">
                         {{ __('Liste d\'attente ') }}
                 </x-nav-link>
+
+
+                <x-nav-link href="/reservationprise/" :active="request()->routeIs('dashboard')">
+                        {{ __('Réservation occupé ') }}
+                </x-nav-link>
+
+                @endcan
+
 
 
                 </div>

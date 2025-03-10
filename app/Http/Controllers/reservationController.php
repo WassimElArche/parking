@@ -95,6 +95,16 @@ class reservationController extends Controller
             $reservation->update(['status' => -1]);
             if($reservation->place_id != null)
                 place::find($reservation->place_id)->update(['status' => 'libre']);
+            if($reservation->users->listeatt > 0){
+                $users = User::where('listeatt' , '>', $reservation->users->listeatt)->get();
+                foreach($users as $user){
+                    
+                    if($user->listeatt > 0){
+                        $listeatt = $user->listeatt;
+                        $user->update(['listeatt' =>  intval($user->listeatt) - 1]);}
+                }
+                $reservation->users->update(['listeatt' =>  null]);
+            }
             return redirect()->back();
         }
     

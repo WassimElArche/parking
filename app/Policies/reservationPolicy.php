@@ -29,7 +29,7 @@ class reservationPolicy
      */
     public function create(User $user): bool
     {
-        return !reservation::where('user_id' , $user->id)->where('status','=','0')->orWhere('status' ,'=' ,'1')->exists();
+        return !$user->reservations()->where('status','=','0')->orwhere('status' ,'=' ,'1')->exists();
     }
 
     public function resilier(User $user , reservation $reservation){

@@ -34,9 +34,6 @@ class reservationController extends Controller
         
     }
 
-    public function reservationprisePost(){
-        return "okKKK";
-    }
 
     /**
      * Show the form for creating a new resource.

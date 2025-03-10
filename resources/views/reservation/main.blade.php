@@ -34,39 +34,67 @@
                     </tr>
     @else
     <div class="text-center">
-        <table class="min-w-full table-auto">
-            <thead>
-                <tr>
-                    <th class="px-4 py-2 text-center text-black">Nom demandeur</th>
-                    <th class="px-4 py-2 text-center text-black">Prenom demandeur</th>
-                    <th class="px-4 py-2 text-center text-black">Date de demande</th>
-                    <th class="px-4 py-2 text-center text-black">Place dans la liste d'attente</th>
-                </tr>
-            </thead>
-            <tbody>
-            
-                @foreach($reservations as $reservation)
-                    <tr class="text-center">
-                    
-                        <td class="px-4 py-2 text-center text-black">{{ $reservation->users->nom }}</td>
-                        <td class="px-4 py-2 text-center text-black">{{ $reservation->users->prenom }}</td>
-                        
-                        <td class="px-4 py-2 text-center text-black">{{ $reservation->dateDemande }}</td>
-                        <td class="px-4 py-2 text-center text-black">{{ $reservation->users->listeatt }}</td>
+    <div class="text-center">
         
-                        <td class="px-4 py-2 text-center text-black">
+        <div class="overflow-x-auto">
+                                <table class="min-w-full">
+                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                        <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                                Demandeur
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                                Date debut de réservation
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                                Place dans la liste d'attente
+                                            </th>
+                                            
+                                        </tr>
+                                    </thead>
+                                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                        @foreach ($reservations as $reservation)
+                                            <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-900 dark:text-black-100">
+                                                    {{ $reservation->users->getFullName() }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-900 dark:text-black-100">
+                                                    {{ $reservation->dateDemande }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-900 dark:text-black-100">
+                                                    {{ $reservation->users->listeatt }}
+                                                </td>
+                                                                                   
+                                        <td class="px-4 py-2">
+                                            <div class="flex justify-start space-x-2">
+                                                <form method="POST" action="/reservation/{{$reservation->id}}" style="display: inline;">
+                                                    @csrf
+                                                    @method('PATCH')
+
+                                                    <x-primary-button type="submit" name="attribuer" class="mr-2">
+                                                        {{ __('Attribuer place') }}
+                                                    </x-primary-button>
 
 
-                        <form action="/reservation/{{ $reservation->id }}" method="post" class="flex space-x-2">
-                            @csrf
-                            @method('PATCH')     
-
-                            <x-primary-button class="mr-2" name="valider">
-                                {{ __('Attribuer classe') }}
-                            </x-primary-button>
-                        </form>
-
-                @endforeach
+                                                    <x-primary-button type="submit" name="resilier" class="ml-2">
+                                                        {{ __('Résilier') }}
+                                                    </x-primary-button>
+                                                </form>
+                                            </div>
+                                        </td>
+    
+                                    </tr>
+    
+                                            
+                                        @endforeach
+                                    </tbody>
+                                    
+                                    
+    
+                   
+                    
+                </tbody>
+            </table>
 
                 @endif 
                 

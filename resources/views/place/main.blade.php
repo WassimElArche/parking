@@ -16,48 +16,63 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full table-auto">
-                            <thead>
-                                <tr>
-                                    <th class="px-4 py-2 text-center text-black">Numéro Place</th>
-                                    <th class="px-4 py-2 text-center text-black">Libellé Place</th>
-                                    <th class="px-4 py-2 text-center text-black">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                               
-                                @foreach($places as $place)
-                                
-                                <tr class="text-center">
-                                    <center><td class="px-4 py-2 text-center text-black">{{ $place->id }}</td></center>
-                                    <center><td class="px-4 py-2 text-center text-black">{{ $place->libellePlace }}</td></center>
-                                    @if($place->status == "occuper")
-                                    <center><td class="px-4 py-2 text-center text-black">Occuper </td></center>
-                                    @else
-                                    <center><td class="px-4 py-2 text-center text-black">Libre</td></center>
-                                    @endif
-                                    <td class="px-4 py-2">
-                                        <div class="flex justify-start space-x-2">
-                                            <a href="/places/{{$place->id}}/edit">
-                                                <x-primary-button class="mr-2">
-                                                    {{ __('Modifier') }}
-                                                </x-primary-button>
-                                            </a>
-                                            <form method="POST" action="/places/{{$place->id}}" style="display: inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <x-primary-button type="submit" class="ml-2">
-                                                    {{ __('Supprimer') }}
-                                                </x-primary-button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="overflow-x-auto">
+                                <table class="min-w-full">
+                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                        <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                                n° place
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                                Libelle place
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                                Status
+                                            </th>
+                                            
+                                        </tr>
+                                    </thead>
+                                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                        @foreach ($places as $place)
+                                            <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-900 dark:text-black-100">
+                                                    {{ $place->id }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-900 dark:text-black-100">
+                                                    {{ $place->libellePlace }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-900 dark:text-black-100">
+                                                    {{ $place->status }}
+                                                </td>
+                                                                                   
+                                        <td class="px-4 py-2">
+                                            <div class="flex justify-start space-x-2">
+
+                                               <a href="/places/{{$place->id}}/edit"><x-primary-button type="submit" name="attribuer" class="mr-2">
+                                                            {{ __('Modifier place') }}
+                                                </x-primary-button></a>
+                                                <form method="POST" action="/places/{{$place->id}}" style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <x-primary-button type="submit" name="resilier" class="ml-2">
+                                                        {{ __('Supprimer') }}
+                                                    </x-primary-button>
+                                                </form>
+                                            </div>
+                                        </td>
+    
+                                    </tr>
+    
+                                            
+                                        @endforeach
+                                    </tbody>
+                                    
+                                    
+    
+                   
+                    
+                </tbody>
+            </table>
                 </div>
             </div>
         </div>

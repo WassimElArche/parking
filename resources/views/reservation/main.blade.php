@@ -22,6 +22,17 @@
                                 Vous ne pouvez pas faire de demande de reservation car vous en avez déjà une en cours
                             </div>
             @endif
+
+
+@if($errors->has('pasDispo'))
+            <br>
+<div class="alert alert-danger">
+      Vous ne pouvez pas attribuer de place car aucune n'est place n'est disponible 
+      , veuillez liberer une place
+</div>
+@endif
+
+            
 @endsection
 
 @section('container')

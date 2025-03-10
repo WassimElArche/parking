@@ -100,8 +100,8 @@ class reservationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $users = User::where('listeatt' , '>', $reservation->users->listeatt)->get();
         $reservation = reservation::find($id);
+        $users = User::where('listeatt' , '>', $reservation->users->listeatt)->get();
         if($request->has('resilier') && Auth::user()->can('resilier' , $reservation)){
             if($reservation->status == 1)
                 $reservation->update([
@@ -125,11 +125,12 @@ class reservationController extends Controller
             return redirect()->back();
         }
         
-        else if ($request->has('attribuer') && Auth::user()->can('attribuer' , $reservation)){
-            $place = place::where('status' , 'libre');
-            if($place->exists()){
+        else if ($request->has('attribuer') && Auth::user()->can('attribuer' , reservation::class)){
+            $place = place::where('status' ,'libre');
+            if($place->exists()){   
                 $reservation->update([
                     'place' =>  $place->first()->id,
+                    'status' => 1,
                 ]);
                 $place->update(['status' => 'occuper']);
                 foreach($users as $user){
@@ -138,7 +139,9 @@ class reservationController extends Controller
                         $user->update(['listeatt' =>  intval($user->listeatt) - 1]);
                     }
             }
-        }
+        }else
+            return redirect()->back()->withErrors(['pasDispo' => "Message"]);
+        
         }
         return redirect()->back();
     }

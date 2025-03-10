@@ -17,6 +17,6 @@ class reservation extends Model
     }
 
     protected $fillable = [
-        'status','place_id','dateDemande'
+        'status','place_id','dateDemande','dateDeb','dateExpiration'
     ];
 }

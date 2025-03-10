@@ -22,6 +22,7 @@
                                 <tr>
                                     <th class="px-4 py-2 text-center text-black">Numéro Place</th>
                                     <th class="px-4 py-2 text-center text-black">Libellé Place</th>
+                                    <th class="px-4 py-2 text-center text-black">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -31,6 +32,11 @@
                                 <tr class="text-center">
                                     <center><td class="px-4 py-2 text-center text-black">{{ $place->id }}</td></center>
                                     <center><td class="px-4 py-2 text-center text-black">{{ $place->libellePlace }}</td></center>
+                                    @if($place->status == "occuper")
+                                    <center><td class="px-4 py-2 text-center text-black">Occuper </td></center>
+                                    @else
+                                    <center><td class="px-4 py-2 text-center text-black">Libre</td></center>
+                                    @endif
                                     <td class="px-4 py-2">
                                         <div class="flex justify-start space-x-2">
                                             <a href="/places/{{$place->id}}/edit">

@@ -27,8 +27,9 @@ class ProfileController extends Controller
 
         $user = Auth::user();
         if($user->can('voirEspace' , User::class)){
-            $maplace = $user->reservations()->where('status','!=', '-1')->first();
-            return view('employe.main' , compact('user' , 'maplace'));
+            $maplace = $user->reservations()->where('status','>=', '0')->first();
+            $anciens = $user->reservations()->where('status',-1)->orderby('dateExpiration' , 'desc')->paginate(10);
+            return view('employe.main' , compact('user' , 'maplace','anciens'));
         }
         else return redirect()->back();
     }

@@ -29,7 +29,7 @@
                 @endcan
 
                 <x-nav-link href="/reservation/" :active="request()->routeIs('dashboard')">
-                        {{ __('Réservation') }}
+                        {{ __('Liste d\'attente ') }}
                 </x-nav-link>
 
 
@@ -49,7 +49,7 @@
                                 </svg>
                             </div>
                         </button>
-                    </x-slot>
+                </x-slot>
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">

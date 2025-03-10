@@ -19,11 +19,10 @@ class reservationController extends Controller
     {
         if(Auth::user()->isAdmin()){
             $reservations = reservation::where('status' , '0')->get();
+            return view('reservation.main' , compact('reservations'));
         }
+        else return redirect()->back();
         
-        else
-            $reservations = Auth::user()->reservations()->get();
-        return view('reservation.main' , compact('reservations'));
     }
 
     /**
@@ -48,6 +47,7 @@ class reservationController extends Controller
                 'place_id' => $place->id,
                 'status' => 1,
                 'dateDemande' => Carbon::now()->format('d-m-Y'),
+                'dateDeb' => Carbon::now()->format('d-m-Y'),
             ]);
             $place->update(['status' => 'occuper']);
             return redirect('/mon-espace');
@@ -92,7 +92,14 @@ class reservationController extends Controller
         
         $reservation = reservation::find($id);
         if($request->has('resilier') && Auth::user()->can('resilier' , $reservation)){
-            $reservation->update(['status' => -1]);
+            if($reservation->status == 1)
+                $reservation->update([
+                                'status' => -1, 
+                                'dateExpiration' => Carbon::now()->format('d-m-Y') ,
+                            ]);
+            else 
+                $reservation->update(['status' => -2]);
+    
             if($reservation->place_id != null)
                 place::find($reservation->place_id)->update(['status' => 'libre']);
             if($reservation->users->listeatt > 0){

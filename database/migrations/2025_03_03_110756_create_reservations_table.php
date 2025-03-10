@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->integer('place_id');
-            $table->date('dateDeb');
-            $table->date('dateExpiration');
+            $table->integer('place_id')->nullable();
+            $table->date('dateDeb')->nullable();
+            $table->date('dateExpiration')->nullable();
             $table->date('dateDemande');
             $table->integer('status');
             $table->timestamps();

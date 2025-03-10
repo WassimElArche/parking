@@ -15,4 +15,8 @@ class reservation extends Model
     public function users(){
         return $this->belongsTo(User::class,'user_id');
     }
+
+    protected $fillable = [
+        'status','place_id','dateDemande'
+    ];
 }

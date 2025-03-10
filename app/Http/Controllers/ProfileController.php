@@ -26,7 +26,6 @@ class ProfileController extends Controller
     public function espace(){
 
         $user = Auth::user();
-        $user->can('create' , reservation::class);
         if($user->can('voirEspace' , User::class)){
             $maplace = $user->reservations()->where('status','!=', '-1')->first();
             return view('employe.main' , compact('user' , 'maplace'));

@@ -37,7 +37,7 @@ class placePolicy
      */
     public function update(User $user, place $place): bool
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**
@@ -45,7 +45,7 @@ class placePolicy
      */
     public function delete(User $user, place $place): bool
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**

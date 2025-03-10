@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('places', function (Blueprint $table) {
             $table->id();
             $table->string('libellePlace');
+            $table->string('status');
             $table->timestamps();
         });
     }

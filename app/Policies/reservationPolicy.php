@@ -32,6 +32,11 @@ class reservationPolicy
         return !reservation::where('user_id' , $user->id)->where('status','=','0')->orWhere('status' ,'=' ,'1')->exists();
     }
 
+    public function resilier(User $user , reservation $reservation){
+        return $user->id == $reservation->user_id || $user->isAdmin();
+    }
+
+
     /**
      * Determine whether the user can update the model.
      */

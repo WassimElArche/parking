@@ -7,19 +7,25 @@
 @section('bouton')
 
     <div class="flex justify-end">
-        @can('create' , $maplace)
-        <a href="{{ route('reservation.create') }}">
+        
+        <form action ="/reservation" method="POST">
+            @csrf
             <x-primary-button>
                 {{ __('Faire une demande de réservation') }}
             </x-primary-button>
-        </a>
-        @endcan
+        </form>
     </div>
-
-@endsection
+    
+                @if($errors->has('interdit'))
+            <br>
+                            <div class="alert alert-danger">
+                                Vous ne pouvez pas faire de demande de reservation car vous en avez déjà une en cours
+                            </div>
+            @endif
+            @endsection
 
 @section('container')
-     @if($maplace->status == 0)
+     @if($maplace != null && $maplace->status == 0)
 
         <div class="alert alert-danger">
                     Vous êtes en liste d'attente
@@ -33,10 +39,10 @@
             <div class="flex justify-start mt-4 space-x-4">
                 
 
-                <form action="" method="post">
+                <form action="/reservation/{{$maplace->id}}" method="post">
                     @csrf
-                    @method('DELETE')
-                    <x-primary-button type="submit" class="bg-red-500 hover:bg-red-700">
+                    @method('PATCH')
+                    <x-primary-button type="submit" name="resilier" class="bg-red-500 hover:bg-red-700">
                         {{ __('Résilier la réservation') }}
                     </x-primary-button>
                 </form>
@@ -46,7 +52,7 @@
 
 
         
-        @else @if($maplace->status == 1)
+        @else @if($maplace != null && $maplace->status == 1)
         <div class="bg-white p-6 rounded-lg shadow-sm">
             <h3 class="text-xl font-semibold mb-4">Détails de votre réservation</h3>
             <p><strong>Numéro de la place:</strong> {{ $maplace->place_id }}</p>
@@ -54,7 +60,7 @@
             <p><strong>Date de fin réservation:</strong> {{ $maplace->dateFin}}</p>
             
             <div class="flex justify-start mt-4 space-x-4">
-                <form action="" method="post">
+                <form action="/reservation/{{$maplace->id}}" method="post">
                     @csrf
                     @method('PATCH')
                     <x-primary-button type="submit" name="resilier" class="bg-red-500 hover:bg-red-700">

@@ -4,9 +4,9 @@
             {{ __("Utilisateurs : ") }}
         </h2>
         <div class="flex justify-end">
-            <a href="/admin/create">
+            <a href="/places/create">
                 <x-primary-button class="mr-2">
-                    {{ __('Ajouter des utilisateurs') }}
+                    {{ __('Ajouter une place') }}
                 </x-primary-button>
             </a>
         </div>
@@ -30,15 +30,15 @@
                                 
                                 <tr class="text-center">
                                     <center><td class="px-4 py-2 text-center text-black">{{ $place->id }}</td></center>
-                                    <center><td class="px-4 py-2 text-center text-black">{{ $place->id }}</td></center>
+                                    <center><td class="px-4 py-2 text-center text-black">{{ $place->libellePlace }}</td></center>
                                     <td class="px-4 py-2">
                                         <div class="flex justify-start space-x-2">
-                                            <a href="/admin/{{$place->id}}/edit">
+                                            <a href="/places/{{$place->id}}/edit">
                                                 <x-primary-button class="mr-2">
                                                     {{ __('Modifier') }}
                                                 </x-primary-button>
                                             </a>
-                                            <form method="POST" action="/admin/{{$place->id}}" style="display: inline;">
+                                            <form method="POST" action="/places/{{$place->id}}" style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <x-primary-button type="submit" class="ml-2">

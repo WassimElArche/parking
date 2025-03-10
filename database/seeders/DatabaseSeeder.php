@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
 
         place::create([
             'libellePlace' => "placeTest",
+            'status' => 'libre',
         ]);
 
 

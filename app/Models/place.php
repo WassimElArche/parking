@@ -11,5 +11,7 @@ class place extends Model
         return $this->hasMany(reservation::class,'place_id');
     }
 
-    protected $fillable =  ['libellePlace'];
+    protected $fillable =  [
+        'libellePlace' , 'status'
+];
 }

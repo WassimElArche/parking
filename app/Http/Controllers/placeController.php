@@ -42,6 +42,7 @@ class placeController extends Controller
     public function store(Request $request)
     {
         if(Auth::user()->can('create' ,place::class )){
+        $request['status'] = 'libre';
         place::create($request->input());
         return redirect('/places');
     }
@@ -62,7 +63,11 @@ class placeController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $place = place::find($id);
+        if(Auth::user()->can('update' ,$place)){
+            return view('place.edit' , compact('place'));
+        }
+        return redirect()->back();
     }
 
     /**
@@ -70,7 +75,12 @@ class placeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $place = place::find($id);
+        if(Auth::user()->can('update' , $place)){
+            $place->update($request->input());
+            return redirect('/places');
+        }
+        return redirect()->back();
     }
 
     /**
@@ -78,6 +88,11 @@ class placeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $place = place::find($id);
+        if(Auth::user()->can('delete' , $place)){
+            $place->delete();
+            return redirect('/places');
+        }
+        return redirect('/places');
     }
 }

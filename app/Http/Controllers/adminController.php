@@ -54,7 +54,12 @@ class adminController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $employe = User::find($id);
+        if(Auth::user()->can('update' , $employe)){
+
+            return view('employe.edit', compact('employe'));
+        }
+        return redirect()->back();
     }
 
     /**
@@ -62,7 +67,24 @@ class adminController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $employe = User::find($id);
+        if(Auth::user()->can('update',$employe)){
+            $password = $employe->password;
+            $role = $employe->role;
+            if($request->password != null)
+                $password = Hash::make($request->password);
+            if($request->role != null)
+                $role = intval($request->role);
+            $employe->update([
+                'nom' => $request->nom,
+                'prenom' => $request->prenom,
+                'email' => $request->email,
+                'password' => $password,
+                'role' => $role,
+            ]);
+            return redirect('/admin');
+        }
+        return redirect()->back();
     }
 
     /**

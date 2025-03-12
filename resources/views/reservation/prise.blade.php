@@ -40,6 +40,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-900 dark:text-black-100">
                                                 {{ $reservation->users->nom }}
                                             </td>
+                                       
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-900 dark:text-black-100">
                                                 {{ $reservation->place_id }}
                                             </td>

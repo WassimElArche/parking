@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             'prenom' => 'test',
             'email' => 'a@a',
             'password' => 'a',
-            'role'=>1
+            'role'=>1,
+            'listeatt'=>1,
         ]);
 
         User::factory()->create([

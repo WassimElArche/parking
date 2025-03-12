@@ -51,6 +51,7 @@ class reservationController extends Controller
         $user = Auth::user();
         $dernierplace = User::max('listeatt');
         if($user->can('create' , reservation::class)){
+            
             $place = place::where('status' , 'libre')->first();
             if($place != null && $dernierplace == 0){
             $user->reservations()->create([
@@ -101,7 +102,8 @@ class reservationController extends Controller
     public function update(Request $request, string $id)
     {
         $reservation = reservation::find($id);
-        $users = User::where('listeatt' , '>', $reservation->users->listeatt)->get();
+        if($reservation->users->listeatt != null)
+            $users = User::where('listeatt' , '>', $reservation->users->listeatt)->get();
         if($request->has('resilier') && Auth::user()->can('resilier' , $reservation)){
             if($reservation->status == 1)
                 $reservation->update([
@@ -128,9 +130,12 @@ class reservationController extends Controller
         else if ($request->has('attribuer') && Auth::user()->can('attribuer' , reservation::class)){
             $place = place::where('status' ,'libre');
             if($place->exists()){   
+                
                 $reservation->update([
-                    'place' =>  $place->first()->id,
+                    'place_id' =>  $place->first()->id,
                     'status' => 1,
+                    'dateDeb' => Carbon::now()->format('d-m-Y'),
+                    'dateExpiration' => Carbon::now()->addWeeks(3)->format('d-m-Y'),
                 ]);
                 $place->update(['status' => 'occuper']);
                 foreach($users as $user){

@@ -75,11 +75,14 @@
             </div>
         </div>
         @else 
-        <p>Vous n'avez aucune réservation </p>
+        <div class="alert alert-danger">
+        <center><p>Vous n'avez aucune réservation en cours</p></center>
+</div>
         
     @endif
     @endif
-    <div class="py-12">
+    
+    <div  class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -102,7 +105,7 @@
 
                 @endforeach-->
 
-
+                
                 <div class="overflow-x-auto">
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead class="bg-gray-50 dark:bg-gray-700">

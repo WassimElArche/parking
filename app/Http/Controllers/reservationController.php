@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\place;
 use App\Models\User;
 use App\Models\reservation;
+use App\Events\reserverEvent;
 
 use Carbon\Carbon; 
 
@@ -63,18 +64,18 @@ class reservationController extends Controller
             ]);
             $place->update(['status' => 'occuper']);
             return redirect('/mon-espace');
-        }
-        else{
-            $user->reservations()->create([
-                'status' => 0,
-                'dateDemande' => Carbon::now()->format('d-m-Y'),
-            ]);
-            if($dernierplace == null)
-                $user->update(['listeatt' => 1]);
-            else
-                $user->update(['listeatt' => intval($dernierplace)+1]);
-        }
-        return redirect()->back();
+            }
+            else{
+                $user->reservations()->create([
+                    'status' => 0,
+                    'dateDemande' => Carbon::now()->format('d-m-Y'),
+                ]);
+                if($dernierplace == null)
+                    $user->update(['listeatt' => 1]);
+                else
+                    $user->update(['listeatt' => intval($dernierplace)+1]);
+            }
+            return redirect()->back();
         }
         else
             return redirect()->back()->withErrors(['interdit' => ' Message']);
@@ -105,50 +106,41 @@ class reservationController extends Controller
         if($reservation->users->listeatt != null)
             $users = User::where('listeatt' , '>', $reservation->users->listeatt)->get();
         if($request->has('resilier') && Auth::user()->can('resilier' , $reservation)){
+            //si a deja reserver
+
             if($reservation->status == 1)
-                $reservation->update([
+                {
+                    $reservation->update([
                                 'status' => -1, 
                                 'dateExpiration' => Carbon::now()->format('d-m-Y') ,
-                            ]);
-            else 
-                $reservation->update(['status' => -2]);
-    
-            if($reservation->place_id != null)
-                place::find($reservation->place_id)->update(['status' => 'libre']);
-            if($reservation->users->listeatt > 0){
-                foreach($users as $user){
-                    
-                    if($user->listeatt > 0){
-                        $listeatt = $user->listeatt;
-                        $user->update(['listeatt' =>  intval($user->listeatt) - 1]);}
+                    ]);
+                    $reservation->places->update(['status' => 'libre']);
+                    event(new reserverEvent(User::where('listeatt',1)->first() , $reservation->places));
                 }
-                $reservation->users->update(['listeatt' =>  null]);
-            }
+                //si est en liste datt
+            else{
+                $reservation->update(['status' => -2]);
+                if($reservation->users->listeatt > 1){
+
+                    foreach($users as $user){
+                        if($user->listeatt > 0){
+                            $listeatt = $user->listeatt;
+                            $user->update(['listeatt' =>  intval($user->listeatt) - 1]);}
+                    }
+                    $reservation->users->update(['listeatt' =>  null]);
+                }
+        }
             return redirect()->back();
         }
         
         else if ($request->has('attribuer') && Auth::user()->can('attribuer' , reservation::class)){
-            $place = place::where('status' ,'libre');
-            if($place->exists()){   
-                
-                $reservation->update([
-                    'place_id' =>  $place->first()->id,
-                    'status' => 1,
-                    'dateDeb' => Carbon::now()->format('d-m-Y'),
-                    'dateExpiration' => Carbon::now()->addWeeks(3)->format('d-m-Y'),
-                ]);
-                $place->update(['status' => 'occuper']);
-                foreach($users as $user){
-                    if($user->listeatt > 0){
-                        $listeatt = $user->listeatt;
-                        $user->update(['listeatt' =>  intval($user->listeatt) - 1]);
-                    }
-            }
+            $place = Place::where('status' , 'libre')->first();
+            event(new reserverEvent($reservation->users , $place));
         }else
             return redirect()->back()->withErrors(['pasDispo' => "Message"]);
-        
-        }
+
         return redirect()->back();
+    
     }
 
     /**

@@ -17,9 +17,13 @@ class reserverEvent
     /**
      * Create a new event instance.
      */
-    public function __construct()
+
+    public $user;
+    public $place; 
+    public function __construct($user , $place)
     {
-        
+        $this->user = $user;
+        $this->place = $place;
     }
 
     /**

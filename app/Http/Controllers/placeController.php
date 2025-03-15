@@ -48,35 +48,15 @@ class placeController extends Controller
         if(Auth::user()->can('create' ,place::class )){
         $request['status'] = 'libre';
         $place = place::create($request->input());
-        
         if($request->has('creeplace')){
-            $user = User::where('listeatt' , 1)->first();
-            if($user != null){
-                $user->reservations()->where('status' , 0)->first()->update([
-                    'place_id' => $place->id,
-                    'status' => 1,
-                    'dateDemande' => Carbon::now()->format('d-m-Y'),
-                    'dateDeb' => Carbon::now()->format('d-m-Y'),
-                    'dateExpiration' => Carbon::now()->addWeeks(3)->format('d-m-Y'),
-                ]);
-                $users = User::where('listeatt' , '>', 1)->get();
-                foreach($users as $user){
-                    if($user->listeatt > 0){
-                        $listeatt = $user->listeatt;
-                        $user->update(['listeatt' =>  intval($user->listeatt) - 1]);
-                    }
-            }
-                $user->update(['listeatt' => null]);
-                $place->update(['status'  => 'occuper']);
-            }
-            
-        }
+            event(new reserverEvent(User::where('listeatt',1)->first() , $place));
 
         return redirect('/places');
     }
     
     return redirect()->back();
     }
+}
 
     /**
      * Display the specified resource.

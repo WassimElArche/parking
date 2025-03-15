@@ -4,6 +4,9 @@ namespace App\Listeners;
 
 use App\Events\reserverEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Models\User;
+use App\Models\reservation;
+use Carbon\Carbon;
 use Illuminate\Queue\InteractsWithQueue;
 
 class reserverListener
@@ -21,14 +24,27 @@ class reserverListener
      */
     public function handle(reserverEvent $event): void
     {
-            if($place != null && $dernierplace == 0){
-            $user->reservations()->create([
+        $place = $event->place;
+        $user = $event->user;
+        if($user != null){
+            $users = User::where('listeatt' , '>', $user->listeatt)->get();
+        foreach($users as $User){
+            if($User->listeatt > 0){
+                $listeatt = $User->listeatt;
+                $User->update(['listeatt' =>  intval($User->listeatt) - 1]);
+            }
+        }
+        if($place != null){
+            $user->reservations()->where('status' , 0)->first()->update([
                 'place_id' => $place->id,
                 'status' => 1,
                 'dateDemande' => Carbon::now()->format('d-m-Y'),
                 'dateDeb' => Carbon::now()->format('d-m-Y'),
                 'dateExpiration' => Carbon::now()->addWeeks(3)->format('d-m-Y'),
             ]);
-            $place->update(['status' => 'occuper']);}
+        }
+            $user->update(['listeatt' => null]);
+            $place->update(['status'  => 'occuper']);
+        }}
     }
-}
+

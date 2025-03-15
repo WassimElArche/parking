@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\place;
 use App\Models\User;
+use App\Models\reservation;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Events\reserverEvent;
 
 class placeController extends Controller
 {
@@ -41,9 +44,34 @@ class placeController extends Controller
      */
     public function store(Request $request)
     {
+        //plus tard event(new reserverEvent());
         if(Auth::user()->can('create' ,place::class )){
         $request['status'] = 'libre';
-        place::create($request->input());
+        $place = place::create($request->input());
+        
+        if($request->has('creeplace')){
+            $user = User::where('listeatt' , 1)->first();
+            if($user != null){
+                $user->reservations()->where('status' , 0)->first()->update([
+                    'place_id' => $place->id,
+                    'status' => 1,
+                    'dateDemande' => Carbon::now()->format('d-m-Y'),
+                    'dateDeb' => Carbon::now()->format('d-m-Y'),
+                    'dateExpiration' => Carbon::now()->addWeeks(3)->format('d-m-Y'),
+                ]);
+                $users = User::where('listeatt' , '>', 1)->get();
+                foreach($users as $user){
+                    if($user->listeatt > 0){
+                        $listeatt = $user->listeatt;
+                        $user->update(['listeatt' =>  intval($user->listeatt) - 1]);
+                    }
+            }
+                $user->update(['listeatt' => null]);
+                $place->update(['status'  => 'occuper']);
+            }
+            
+        }
+
         return redirect('/places');
     }
     

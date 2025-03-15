@@ -17,7 +17,7 @@
                 <br>
 
                 <center><div class="mt-6">
-                    <x-primary-button type="submit" class="ms-3">
+                    <x-primary-button type="submit" name="creeplace" class="ms-3">
                         {{ __('Créer la place') }}
                     </x-primary-button>
                 </div></center>

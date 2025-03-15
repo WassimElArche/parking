@@ -6,6 +6,8 @@
 
 @section('bouton')
 
+
+
     <div class="flex justify-end">
         
         <form action ="/reservation" method="POST">

@@ -94,7 +94,11 @@ class reservationController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $resa = reservation::find($id);
+        if(Auth::user()->can('update' , $resa)){
+            return view('reservation.edit', compact('resa'));
+        }
+        return redirect()->back();
     }
 
     /**
@@ -105,43 +109,55 @@ class reservationController extends Controller
         $reservation = reservation::find($id);
         if($reservation->users->listeatt != null)
             $users = User::where('listeatt' , '>', $reservation->users->listeatt)->get();
+
         if($request->has('resilier') && Auth::user()->can('resilier' , $reservation)){
             //si a deja reserver
 
-            if($reservation->status == 1)
-                {
-                    $reservation->update([
-                                'status' => -1, 
-                                'dateExpiration' => Carbon::now()->format('d-m-Y') ,
-                    ]);
-                    $reservation->places->update(['status' => 'libre']);
-                    event(new reserverEvent(User::where('listeatt',1)->first() , $reservation->places));
-                }
-                //si est en liste datt
-            else{
-                $reservation->update(['status' => -2]);
-                if($reservation->users->listeatt > 1){
-
-                    foreach($users as $user){
-                        if($user->listeatt > 0){
-                            $listeatt = $user->listeatt;
-                            $user->update(['listeatt' =>  intval($user->listeatt) - 1]);}
+                if($reservation->status == 1)
+                    {
+                        $reservation->update([
+                                    'status' => -1, 
+                                    'dateExpiration' => Carbon::now()->format('d-m-Y') ,
+                        ]);
+                        $reservation->places->update(['status' => 'libre']);
+                        event(new reserverEvent(User::where('listeatt',1)->first() , $reservation->places));
                     }
-                    $reservation->users->update(['listeatt' =>  null]);
+                    //si est en liste datt
+                else{
+                    $reservation->update(['status' => -2]);
+                    if($reservation->users->listeatt > 1){
+
+                        foreach($users as $user){
+                            if($user->listeatt > 0){
+                                $listeatt = $user->listeatt;
+                                $user->update(['listeatt' =>  intval($user->listeatt) - 1]);}
+                        }
+                        $reservation->users->update(['listeatt' =>  null]);
+                    }
                 }
-        }
-            return redirect()->back();
+                return redirect()->back();
         }
         
-        else if ($request->has('attribuer') && Auth::user()->can('attribuer' , reservation::class)){
+        else if ($request->has('attribuer') && Auth::user()->can('attribuer' , reservation::class))
+        {
             $place = Place::where('status' , 'libre')->first();
-            event(new reserverEvent($reservation->users , $place));
-        }else
+            if(Place::where('status' , 'libre')->exists())
+                event(new reserverEvent($reservation->users , $place));
+            else return redirect()->back()->withErrors(['pasDispo' => "Message"]);
+        }
+        else if($request->has('modifier') && Auth::user()->can('attribuer' , reservation::class)){
+            $validated = $request->validate([
+                'dateExpiration' => 'required|date|after:' . $reservation->dateDeb.'|after:today',
+            ]);
+            $reservation->update([ 'dateExpiration'=> Carbon::parse($request->dateExpiration)->format('d-m-Y')  ]);
+        }
+        else
             return redirect()->back()->withErrors(['pasDispo' => "Message"]);
 
-        return redirect()->back();
+        return redirect('/reservationprise');
     
     }
+
 
     /**
      * Remove the specified resource from storage.

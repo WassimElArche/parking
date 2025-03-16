@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon; 
 use Illuminate\Support\Facades\Hash;
+use App\Events\creerUserEvent;
 
 class adminController extends Controller
 {
@@ -39,7 +40,23 @@ class adminController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        if(Auth::user()->can('create' , User::class))
+        {
+            $mailerreur = [];
+            if($request->users != null){
+                $usersTab = preg_split('/[\s,]+/', $request->users);
+                foreach($usersTab as $user){
+                    if(!filter_var($user, FILTER_VALIDATE_EMAIL))
+                        array_push($mailerreur , $user);
+                    }
+                if(count($mailerreur) == 0)
+                    event(new creerUserEvent($usersTab));
+                else return redirect()->back()->with('erreurMail' , $mailerreur)->withInput();
+                
+             }
+        }
+        return redirect('/admin');
     }
 
     /**

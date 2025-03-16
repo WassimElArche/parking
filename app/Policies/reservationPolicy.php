@@ -46,7 +46,7 @@ class reservationPolicy
      */
     public function update(User $user, reservation $reservation): bool
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**

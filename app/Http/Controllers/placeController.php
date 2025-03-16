@@ -98,6 +98,10 @@ class placeController extends Controller
     {
         $place = place::find($id);
         if(Auth::user()->can('delete' , $place)){
+            $resas = reservation::where('place_id' , $place->id)->where('status',1)->get();
+            foreach($resas as $resa){
+                $resa->update(['status'=> -1]);
+            }
             $place->delete();
             return redirect('/places');
         }

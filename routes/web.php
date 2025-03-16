@@ -20,6 +20,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/listeattente' , [reservationController::class , 'getModifListeAttente'])->middleware(['auth']);
+Route::post('/listeattente' , [reservationController::class , 'modifierListeAttente'])->middleware(['auth']);
+
+
 Route::get('/reservationprise' , [reservationController::class , 'reservationpriseGet'])->middleware(['auth']);
 
 Route::post('/reservationprise' , [reservationController::class , 'reservationprisePost'])->middleware(['auth']);

@@ -59,7 +59,7 @@
                                             </td>
                                             <td>
                                                 <div class="flex space-x-2">
-                                                    <a href="/choixresa/{{$reservation->id}}" class="btn-primary-custom flex items-center text-sm">
+                                                    <a href="/choixresa/{{$reservation->user_id}}" class="btn-primary-custom flex items-center text-sm">
                                                         <i class="fas fa-check-circle mr-1"></i>
                                                         Attribuer
                                                     </a>

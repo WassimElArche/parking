@@ -35,6 +35,8 @@ class reservationController extends Controller
         return redirect()->back()->withErrors(['place' => ' Message']);
     }
 
+
+
     public function choixresaPost(Request $request,String $id){
         $user = User::find($id);
         $oldReservation = reservation::find($request->reservation);
@@ -59,7 +61,7 @@ class reservationController extends Controller
         $oldReservation->update([
             'status' => -1,
             'place_id' => $oldReservation->place_id,
-            'dateExpiration' => Carbon::now(),
+            'dateExpiration' => Carbon::now()->format('d-m-Y'),
         ]);
 
     }

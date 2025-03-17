@@ -38,39 +38,57 @@
                                 {{ __('Aucune réservation en liste d\'attente.') }}
                             </div>
                         @else
-                            <table class="table-custom">
+                            <table class="w-full border-collapse">
                                 <thead>
-                                    <tr>
-                                        <th class="rounded-tl-md">Utilisateur</th>
-                                        <th>Email</th>
-                                        <th>Date de demande</th>
-                                        <th>Position</th>
-                                        <th class="rounded-tr-md">Actions</th>
+                                    <tr class="bg-gray-50">
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b-2 border-gray-200 rounded-tl-lg">
+                                            Utilisateur
+                                        </th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b-2 border-gray-200">
+                                            Email
+                                        </th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b-2 border-gray-200">
+                                            Date de demande
+                                        </th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b-2 border-gray-200">
+                                            Position
+                                        </th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b-2 border-gray-200 rounded-tr-lg">
+                                            Actions
+                                        </th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="bg-white divide-y divide-gray-200">
                                     @foreach ($reservations as $reservation)
-                                        <tr>
-                                            <td class="font-medium">{{ $reservation->users->prenom }} {{ $reservation->users->nom }}</td>
-                                            <td>{{ $reservation->users->email }}</td>
-                                            <td>{{ $reservation->dateDemande }}</td>
-                                            <td>
-                                                <span class="badge-warning">{{ $reservation->users->listeatt }}</span>
+                                        <tr class="hover:bg-gray-50 transition-colors">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                {{ $reservation->users->prenom }} {{ $reservation->users->nom }}
                                             </td>
-                                            <td>
-                                                <div class="flex space-x-2">
-                                                    <a href="/listeattente/{{$reservation->user_id}}" class="btn-secondary-custom flex items-center text-sm">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                                {{ $reservation->users->email }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                                {{ $reservation->dateDemande }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                    {{ $reservation->users->listeatt }}
+                                                </span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <div class="flex space-x-3">
+                                                    <a href="/listeattente/{{$reservation->user_id}}" class="text-blue-600 hover:text-blue-900 flex items-center">
                                                         <i class="fas fa-sort-numeric-down mr-1"></i>
                                                         Modifier position
                                                     </a>
-                                                    <a href="/choixresa/{{$reservation->user_id}}" class="btn-primary-custom flex items-center text-sm">
+                                                    <a href="/choixresa/{{$reservation->user_id}}" class="text-green-600 hover:text-green-900 flex items-center">
                                                         <i class="fas fa-check-circle mr-1"></i>
                                                         Attribuer
                                                     </a>
                                                     <form method="POST" action="/reservation/{{$reservation->id}}" class="inline">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn-secondary-custom flex items-center text-sm text-danger-color hover:bg-red-50">
+                                                        <button type="submit" class="text-red-600 hover:text-red-900 flex items-center">
                                                             <i class="fas fa-times-circle mr-1"></i>
                                                             Refuser
                                                         </button>

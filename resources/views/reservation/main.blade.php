@@ -85,12 +85,11 @@
                                                         <i class="fas fa-check-circle mr-1"></i>
                                                         Attribuer
                                                     </a>
-                                                    <form method="POST" action="/reservation/{{$reservation->id}}" class="inline">
+                                                    <form action="/reservation/{{$reservation->id}}" method="post">
                                                         @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="text-red-600 hover:text-red-900 flex items-center">
-                                                            <i class="fas fa-times-circle mr-1"></i>
-                                                            Refuser
+                                                        @method('PATCH')
+                                                        <button type="submit" name="resilier" class="text-red-600 hover:text-red-900 flex items-center">
+                                                        <i class="fas fa-times-circle mr-1"></i> {{ __('Résilier la réservation') }}
                                                         </button>
                                                     </form>
                                                 </div>

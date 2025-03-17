@@ -1,68 +1,113 @@
-# Gestion de Parking
+# Système de Gestion de Parking
 
-Application web de gestion de places de parking développée avec Laravel.
+Ce projet est une application web de gestion de parking développée avec Laravel 11 et Vue.js.
 
-## Fonctionnalités
+##  Technologies Utilisées
 
-- Gestion des places de parking (ajout, modification, suppression)
-- Système de réservation de places
-- Liste d'attente pour les demandes de réservation
-- Gestion des utilisateurs (administrateurs et utilisateurs standard)
-- Interface moderne et responsive
+- **Backend:**
+  - PHP 8.2
+  - Laravel 11
+  - MySQL/PostgreSQL (base de données)
 
-## Technologies utilisées
+- **Frontend:**
+  - Vue.js
+  - TailwindCSS
+  - Alpine.js
+  - Bootstrap 5.3
 
-- Laravel 11
-- Tailwind CSS
-- Alpine.js
-- SQLite (base de données)
+##  Prérequis
 
-## Installation
+- PHP 8.2 ou supérieur
+- Composer
+- Node.js et npm
+- Base de données MySQL ou PostgreSQL
 
-1. Cloner le dépôt
+##  Installation
+
+1. **Cloner le projet**
 ```bash
-git clone https://github.com/WassimElArche/parking.git
+git clone [URL_DU_REPO]
 cd parking
 ```
 
-2. Installer les dépendances
+2. **Installer les dépendances PHP**
 ```bash
 composer install
+```
+
+3. **Installer les dépendances JavaScript**
+```bash
 npm install
 ```
 
-3. Configurer l'environnement
+4. **Configurer l'environnement**
 ```bash
 cp .env.example .env
 php artisan key:generate
-touch database/database.sqlite
 ```
 
-4. Exécuter les migrations et les seeders
+5. **Configurer la base de données**
+- Modifier le fichier `.env` avec vos informations de connexion à la base de données
+- Exécuter les migrations
 ```bash
 php artisan migrate
-php artisan db:seed
 ```
 
-5. Compiler les assets
+6. **Lancer l'application**
 ```bash
-npm run build
-```
-
-6. Lancer le serveur
-```bash
+# Dans un terminal
 php artisan serve
+
+# Dans un autre terminal
+npm run dev
 ```
 
-## Accès à l'application
+## Structure du Projet
 
-L'application sera accessible à l'adresse http://localhost:8000
+```
+parking/
+├── app/            # Contient la logique de l'application
+├── config/         # Fichiers de configuration
+├── database/       # Migrations et seeders
+├── public/         # Fichiers publics
+├── resources/      # Vues et assets
+├── routes/         # Définition des routes
+├── storage/        # Fichiers de stockage
+└── tests/          # Tests unitaires et fonctionnels
+```
 
-### Identifiants de connexion
+##  Configuration
 
-- **Administrateur** : admin@parking.com / password
-- **Utilisateurs** : user1@parking.com, user2@parking.com, etc. / password
+Le fichier `.env` contient les configurations importantes :
+- Paramètres de la base de données
+- Clés API
+- Configuration de l'application
 
-## Développé par
+##  Tests
 
-Mehdi (mehdisse20@gmail.com)
+Pour exécuter les tests :
+```bash
+php artisan test
+```
+
+##  Contribution
+
+1. Fork le projet
+2. Créer une branche pour votre fonctionnalité (`git checkout -b feature/AmazingFeature`)
+3. Commit vos changements (`git commit -m 'Add some AmazingFeature'`)
+4. Push vers la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrir une Pull Request
+
+##  Licence
+
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+
+##  Auteurs
+
+- Votre Nom - *Travail initial*
+
+##  Remerciements
+
+- Laravel Team
+- Vue.js Team
+- Tous les contributeurs

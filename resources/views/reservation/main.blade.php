@@ -81,13 +81,14 @@
                                                 <a href="/listeattente/{{$reservation->user_id}}"><x-primary-button type="submit" name="attribuer" class="mr-2">
                                                         {{ __('Modifier') }}
                                                     </x-primary-button></a>
+
+                                                    <a href="/choixresa/{{$reservation->user_id}}"><x-primary-button type="submit" name="attribuer" class="mr-2">
+                                                        {{ __('Attribuer place') }}
+                                                    </x-primary-button></a>
+
                                                 <form method="POST" action="/reservation/{{$reservation->id}}" style="display: inline;">
                                                     @csrf
                                                     @method('PATCH')
-
-                                                    <x-primary-button type="submit" name="attribuer" class="mr-2">
-                                                        {{ __('Attribuer place') }}
-                                                    </x-primary-button>
 
 
                                                     <x-primary-button type="submit" name="resilier" class="ml-2">

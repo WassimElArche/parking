@@ -16,6 +16,10 @@ class reservationPolicy
         return false;
     }
 
+    public function choisir(User $user){
+        return $user->isAdmin();
+    }
+
     /**
      * Determine whether the user can view the model.
      */

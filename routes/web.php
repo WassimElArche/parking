@@ -42,8 +42,11 @@ Route::get('/mon-espace' ,[ProfileController::class, 'espace'])->middleware(['au
 
 Route::get("/listeattente/{id}" , [adminController::class , 'getModifListeAttente'])->middleware(['auth']);
 
+Route::get("/listeattente/{id}" , [adminController::class , 'getModifListeAttente'])->middleware(['auth']);
 
+Route::get('/choixresa/{id}' , [reservationController::class , 'choixresa'])->middleware(['auth']);
 
+Route::post('/choixresa/{id}' , [reservationController::class , 'choixresaPost'])->middleware(['auth']);
 
 
 

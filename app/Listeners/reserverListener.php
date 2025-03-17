@@ -34,7 +34,7 @@ class reserverListener
                 $User->update(['listeatt' =>  intval($User->listeatt) - 1]);
             }
         }
-        if($place != null){
+        if($place != null && count($user->reservations) != 0 ){
             $user->reservations()->where('status' , 0)->first()->update([
                 'place_id' => $place->id,
                 'status' => 1,

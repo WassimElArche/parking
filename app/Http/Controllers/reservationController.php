@@ -26,6 +26,46 @@ class reservationController extends Controller
         
     }
 
+    public function choixresa($id){
+        if(Auth::user()->can('choisir' , reservation::class)){
+            $reservations = reservation::where('status', 1)->get();
+            $user = User::find($id);
+            return view('reservation.choixResa' , compact('reservations' , 'user'));
+        }
+    }
+
+    public function choixresaPost(Request $request,String $id){
+        $user = User::find($id);
+        $oldReservation = reservation::find($request->reservation);
+        if(Auth::user()->can('update', $oldReservation)){
+            if($user != null){
+                $users = User::where('listeatt' , '>', $user->listeatt)->get();
+                foreach($users as $User){
+                    if($User->listeatt > 0){
+                        $listeatt = $User->listeatt;
+                        $User->update(['listeatt' =>  intval($User->listeatt) - 1]);
+                    }
+                }
+            }
+        $user->update(['listeatt' => null]);
+        $reservation = $user->reservations->where('status' , 0)->first();
+        $reservation->update([
+            'status' => 1,
+            'place_id' => $oldReservation->place_id,
+            'dateDeb' => Carbon::now()->format('d-m-Y'),
+            'dateExpiration' => Carbon::now()->addWeeks(3)->format('d-m-Y'),
+        ]);
+        $oldReservation->update([
+            'status' => -1,
+            'place_id' => $oldReservation->place_id,
+            'dateExpiration' => Carbon::now(),
+        ]);
+
+    }
+    return redirect('/reservation');
+
+    }
+
 
     public function reservationpriseGet(){
         if(Auth::user()->can('viewAny' , User::class)){
@@ -134,14 +174,6 @@ class reservationController extends Controller
                     }
                 }
                 return redirect()->back();
-        }
-        
-        else if ($request->has('attribuer') && Auth::user()->can('attribuer' , reservation::class))
-        {
-            $place = Place::where('status' , 'libre')->first();
-            if(Place::where('status' , 'libre')->exists())
-                event(new reserverEvent($reservation->users , $place));
-            else return redirect()->back()->withErrors(['pasDispo' => "Message"]);
         }
         else if($request->has('modifier') && Auth::user()->can('attribuer' , reservation::class)){
             $validated = $request->validate([

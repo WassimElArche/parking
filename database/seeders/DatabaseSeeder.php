@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
             'status' => 0,
             'dateDeb' => '2020-12-12',
             'dateExpiration' => '2020-12-12',
-            'dateDemande' => Carbon::now()->format('d-m-Y'),
+            'dateDemande' => Carbon::now()->format('Y-m-d'),
         ]);
 
 

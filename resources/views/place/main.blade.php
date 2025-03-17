@@ -55,37 +55,53 @@
                                 {{ __('Aucune place n\'est disponible actuellement.') }}
                             </div>
                         @else
-                            <table class="table-custom">
+                            <table class="w-full border-collapse">
                                 <thead>
-                                    <tr>
-                                        <th class="rounded-tl-md">N° place</th>
-                                        <th>Libellé</th>
-                                        <th>Statut</th>
-                                        <th class="rounded-tr-md">Actions</th>
+                                    <tr class="bg-gray-50">
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b-2 border-gray-200 rounded-tl-lg">
+                                            N° place
+                                        </th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b-2 border-gray-200">
+                                            Libellé
+                                        </th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b-2 border-gray-200">
+                                            Statut
+                                        </th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b-2 border-gray-200 rounded-tr-lg">
+                                            Actions
+                                        </th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="bg-white divide-y divide-gray-200">
                                     @foreach ($places as $place)
-                                        <tr>
-                                            <td class="font-medium">{{ $place->id }}</td>
-                                            <td>{{ $place->libellePlace }}</td>
-                                            <td>
+                                        <tr class="hover:bg-gray-50 transition-colors">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                {{ $place->id }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                                {{ $place->libellePlace }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
                                                 @if($place->status == 'libre')
-                                                    <span class="badge-success">{{ $place->status }}</span>
+                                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                        {{ $place->status }}
+                                                    </span>
                                                 @else
-                                                    <span class="badge-danger">{{ $place->status }}</span>
+                                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                                        {{ $place->status }}
+                                                    </span>
                                                 @endif
                                             </td>
-                                            <td>
-                                                <div class="flex space-x-2">
-                                                    <a href="/places/{{$place->id}}/edit" class="btn-secondary-custom flex items-center text-sm">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <div class="flex space-x-3">
+                                                    <a href="/places/{{$place->id}}/edit" class="text-indigo-600 hover:text-indigo-900 flex items-center">
                                                         <i class="fas fa-edit mr-1"></i>
                                                         Modifier
                                                     </a>
                                                     <form method="POST" action="/places/{{$place->id}}" class="inline">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn-secondary-custom flex items-center text-sm text-danger-color hover:bg-red-50">
+                                                        <button type="submit" class="text-red-600 hover:text-red-900 flex items-center">
                                                             <i class="fas fa-trash-alt mr-1"></i>
                                                             Supprimer
                                                         </button>

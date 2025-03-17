@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Models\place;
 use App\Models\reservation;
 use Illuminate\Auth\Access\Response;
 
@@ -17,7 +18,7 @@ class reservationPolicy
     }
 
     public function choisir(User $user){
-        return $user->isAdmin();
+        return $user->isAdmin() && count(place::All()) != 0;
     }
 
     /**

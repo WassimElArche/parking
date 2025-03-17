@@ -152,3 +152,9 @@
         </div>
     </div>
 @endsection
+
+@section('scripts')
+    <script>
+        // Add any necessary JavaScript code here
+    </script>
+@endsection

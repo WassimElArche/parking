@@ -97,7 +97,7 @@ class reservationController extends Controller
         if($user->can('create' , reservation::class)){
             
             $place = place::where('status' , 'libre')->first();
-            if($place != null && $dernierplace == 0){
+            if($place != null && $dernierplace == null){
             $user->reservations()->create([
                 'place_id' => $place->id,
                 'status' => 1,
@@ -151,7 +151,7 @@ class reservationController extends Controller
     {
         $reservation = reservation::find($id);
         if($reservation->users->listeatt != null)
-            $users = User::where('listeatt' , '>', $reservation->users->listeatt)->get();
+            $users = User::where('listeatt' , '>', $reservation->users->listeatt)->where('user_id','!=', $reservation->user_id)->get();
         if($request->has('resilier') && Auth::user()->can('resilier' , $reservation)){
                 if($reservation->status == 1)
                     {
@@ -161,18 +161,23 @@ class reservationController extends Controller
                         ]);
                         $reservation->places->update(['status' => 'libre']);
                         event(new reserverEvent(User::where('listeatt',1)->first() , $reservation->places));
+
                     }
                 else{
+                    
                     $reservation->update(['status' => -2]);
-                    if($reservation->users->listeatt > 1){
-
+                    if($reservation->users->listeatt >= 1){
                         foreach($users as $user){
+                            
                             if($user->listeatt > 0){
                                 $listeatt = $user->listeatt;
-                                $user->update(['listeatt' =>  intval($user->listeatt) - 1]);}
+                                
+                                $user->update(['listeatt' =>  intval($user->listeatt) - 1]);
+                            }
                         }
                         $reservation->users->update(['listeatt' =>  null]);
                     }
+                    
                 }
                 return redirect()->back();
         }

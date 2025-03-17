@@ -24,6 +24,7 @@ class reserverListener
      */
     public function handle(reserverEvent $event): void
     {
+        
         $place = $event->place;
         $user = $event->user;
         if($user != null){
@@ -34,6 +35,7 @@ class reserverListener
                 $User->update(['listeatt' =>  intval($User->listeatt) - 1]);
             }
         }
+
         
         if($place != null && count($user->reservations) != 0 ){
             $user->reservations()->where('status' , 0)->first()->update([

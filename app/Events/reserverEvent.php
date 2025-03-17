@@ -24,6 +24,7 @@ class reserverEvent
     {
         $this->user = $user;
         $this->place = $place;
+        
     }
 
     /**

@@ -42,12 +42,12 @@ class DatabaseSeeder extends Seeder
 
 
         reservation::create([
-            'user_id' => 1,  // ID de L'Utilisateur
-            'place_id' => 1, // ID de la place de parking
-            'status' => 0,   // Statut de la réservation (ex: 0 pour en attente)
-            'dateDeb' => Carbon::now()->format('Y-m-d'), // Date de début actuelle
-            'dateExpiration' => Carbon::now()->addWeeks(3)->format('Y-m-d'), // Date d'expiration dans 3 semaines
-            'dateDemande' => Carbon::now()->format('Y-m-d'), // Date de demande actuelle
+            'user_id' => 1,  
+            'place_id' => 1, 
+            'status' => 0,  
+            'dateDeb' => Carbon::now()->format('Y-m-d'),
+            'dateExpiration' => Carbon::now()->addWeeks(3)->format('Y-m-d'), 
+            'dateDemande' => Carbon::now()->format('Y-m-d'), 
         ]);
     }
 }
@@ -55,5 +55,5 @@ class DatabaseSeeder extends Seeder
 
 
 
-    }
-}
+    
+

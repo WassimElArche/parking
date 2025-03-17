@@ -21,6 +21,7 @@ class adminController extends Controller
             return view('admin.main' , compact('users'));
         }
         else return redirect('/');
+        
     }
 
     /**

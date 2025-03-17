@@ -24,6 +24,12 @@
                             Vous ne pouvez pas faire de demande de reservation car vous en avez déjà une en cours
                         </div>
                 @endif
+                @if(session('valider'))
+            <br>
+                        <div class="alert alert-success">
+                            Réservation effectuée
+                        </div>
+                @endif
 @endsection
 
 @section('container')

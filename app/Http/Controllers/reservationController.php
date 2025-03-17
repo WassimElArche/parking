@@ -106,7 +106,7 @@ class reservationController extends Controller
                 'dateExpiration' => Carbon::now()->addWeeks(3)->format('d-m-Y'),
             ]);
             $place->update(['status' => 'occuper']);
-            return redirect('/mon-espace');
+            return redirect('/mon-espace')->with(['valider' => ' Message']);
             }
             else{
                 $user->reservations()->create([

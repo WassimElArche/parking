@@ -1,119 +1,86 @@
-@extends('/layouts/monLayout')
+<x-app-layout>
+    <x-slot name="header">
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight flex items-center">
+                <i class="fas fa-list-alt text-primary mr-2"></i>
+                {{ __("Liste d'attente des réservations") }}
+            </h2>
+        </div>
+    </x-slot>
 
-@section('nom')
-    {{ __('Liste d attente') }}
-@endsection
-
-@section('bouton')
-
-    <!-- <div class="flex justify-end">
-        
-        <form action ="/reservation" method="POST">
-            @csrf
-            <x-primary-button>
-                {{ __('Faire une demande de réservation') }}
-            </x-primary-button>
-        </form>
-    </div>-->
-
+    <div class="py-6">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @if($errors->has('interdit'))
-            <br>
-                            <div class="alert alert-danger">
-                                Vous ne pouvez pas faire de demande de reservation car vous en avez déjà une en cours
-                            </div>
+                <div class="mb-4 p-4 bg-red-100 border border-red-200 text-red-700 rounded-md flex items-center">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    Vous ne pouvez pas faire de demande de réservation car vous en avez déjà une en cours
+                </div>
             @endif
 
+            @if($errors->has('pasDispo'))
+                <div class="mb-4 p-4 bg-red-100 border border-red-200 text-red-700 rounded-md flex items-center">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    Vous ne pouvez pas attribuer de place car aucune place n'est disponible. Veuillez libérer une place.
+                </div>
+            @endif
 
-@if($errors->has('pasDispo'))
-            <br>
-<div class="alert alert-danger">
-      Vous ne pouvez pas attribuer de place car aucune n'est place n'est disponible 
-      , veuillez liberer une place
-</div>
-@endif
-
-            
-@endsection
-
-@section('container')
-
-    @if(count($reservations) == 0)
-                    <tr>
-                        <td colspan="5" class="px-4 py-2 text-center text-black">
-                            {{ __('Aucune réservation en liste d\'attente.') }}
-                        </td>
-                    </tr>
-    @else
-    <div class="text-center">
-    <div class="text-center">
-        
-        <div class="overflow-x-auto">
-                                <table class="min-w-full">
-                                    <thead class="bg-gray-50 dark:bg-gray-700">
-                                        <tr>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                                Demandeur
-                                            </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                                Date debut de réservation
-                                            </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                                Place dans la liste d'attente
-                                            </th>
-                                            
-                                        </tr>
-                                    </thead>
-                                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                        @foreach ($reservations as $reservation)
-                                            <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-900 dark:text-black-100">
-                                                    {{ $reservation->users->getFullName() }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-900 dark:text-black-100">
-                                                    {{ $reservation->dateDemande }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-900 dark:text-black-100">
-                                                    {{ $reservation->users->listeatt }}
-                                                </td>
-                                                                                   
-                                        <td class="px-4 py-2">
-                                            <div class="flex justify-start space-x-2">
-                                                <a href="/listeattente/{{$reservation->user_id}}"><x-primary-button type="submit" name="attribuer" class="mr-2">
-                                                        {{ __('Modifier') }}
-                                                    </x-primary-button></a>
-
-                                                    <a href="/choixresa/{{$reservation->user_id}}"><x-primary-button type="submit" name="attribuer" class="mr-2">
-                                                        {{ __('Attribuer place') }}
-                                                    </x-primary-button></a>
-
-                                                <form method="POST" action="/reservation/{{$reservation->id}}" style="display: inline;">
-                                                    @csrf
-                                                    @method('PATCH')
-
-
-                                                    <x-primary-button type="submit" name="resilier" class="ml-2">
-                                                        {{ __('Résilier') }}
-                                                    </x-primary-button>
-                                                </form>
-                                            </div>
-                                        </td>
-    
-                                    </tr>
-    
-                                            
-                                        @endforeach
-                                    </tbody>
-                                    
-                                    
-    
-                   
+            <div class="card-custom">
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <i class="fas fa-users text-primary mr-2"></i>
+                        Demandes en attente
+                    </h3>
                     
-                </tbody>
-            </table>
-
-                @endif 
-                
-            </tbody>
-        </table>
+                    <div class="overflow-x-auto">
+                        @if(count($reservations) == 0)
+                            <div class="p-4 text-center text-gray-500 bg-gray-50 rounded-md">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                {{ __('Aucune réservation en liste d\'attente.') }}
+                            </div>
+                        @else
+                            <table class="table-custom">
+                                <thead>
+                                    <tr>
+                                        <th class="rounded-tl-md">Utilisateur</th>
+                                        <th>Email</th>
+                                        <th>Date de demande</th>
+                                        <th>Position</th>
+                                        <th class="rounded-tr-md">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($reservations as $reservation)
+                                        <tr>
+                                            <td class="font-medium">{{ $reservation->users->prenom }} {{ $reservation->users->nom }}</td>
+                                            <td>{{ $reservation->users->email }}</td>
+                                            <td>{{ $reservation->dateDemande }}</td>
+                                            <td>
+                                                <span class="badge-warning">{{ $reservation->users->listeatt }}</span>
+                                            </td>
+                                            <td>
+                                                <div class="flex space-x-2">
+                                                    <a href="/choixresa/{{$reservation->id}}" class="btn-primary-custom flex items-center text-sm">
+                                                        <i class="fas fa-check-circle mr-1"></i>
+                                                        Attribuer
+                                                    </a>
+                                                    <form method="POST" action="/reservation/{{$reservation->id}}" class="inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn-secondary-custom flex items-center text-sm text-danger-color hover:bg-red-50">
+                                                            <i class="fas fa-times-circle mr-1"></i>
+                                                            Refuser
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-@endsection
+</x-app-layout>

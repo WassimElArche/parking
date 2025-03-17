@@ -149,7 +149,6 @@ class reservationController extends Controller
         $reservation = reservation::find($id);
         if($reservation->users->listeatt != null)
             $users = User::where('listeatt' , '>', $reservation->users->listeatt)->get();
-
         if($request->has('resilier') && Auth::user()->can('resilier' , $reservation)){
                 if($reservation->status == 1)
                     {
@@ -160,7 +159,6 @@ class reservationController extends Controller
                         $reservation->places->update(['status' => 'libre']);
                         event(new reserverEvent(User::where('listeatt',1)->first() , $reservation->places));
                     }
-                    //si est en liste datt
                 else{
                     $reservation->update(['status' => -2]);
                     if($reservation->users->listeatt > 1){

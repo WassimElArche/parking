@@ -92,6 +92,7 @@
                 <div class="text-center">
                 <h3 class="text-xl font-semibold mb-4">Historique des reservations</h3>
             </thead>
+            
             <!--<tbody>
             
                 @foreach($anciens as $ancien)

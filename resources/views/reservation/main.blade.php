@@ -17,7 +17,7 @@
                 </div>
             @endif
 
-            @if($errors->has('pasDispo'))
+            @if($errors->has('place'))
                 <div class="mb-4 p-4 bg-red-100 border border-red-200 text-red-700 rounded-md flex items-center">
                     <i class="fas fa-exclamation-circle mr-2"></i>
                     Vous ne pouvez pas attribuer de place car aucune place n'est disponible. Veuillez libérer une place.

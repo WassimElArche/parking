@@ -32,6 +32,7 @@ class reservationController extends Controller
             $user = User::find($id);
             return view('reservation.choixResa' , compact('reservations' , 'user'));
         }
+        return redirect()->back()->withErrors(['place' => ' Message']);
     }
 
     public function choixresaPost(Request $request,String $id){

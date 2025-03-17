@@ -59,6 +59,10 @@
                                             </td>
                                             <td>
                                                 <div class="flex space-x-2">
+                                                    <a href="/listeattente/{{$reservation->user_id}}" class="btn-secondary-custom flex items-center text-sm">
+                                                        <i class="fas fa-sort-numeric-down mr-1"></i>
+                                                        Modifier position
+                                                    </a>
                                                     <a href="/choixresa/{{$reservation->user_id}}" class="btn-primary-custom flex items-center text-sm">
                                                         <i class="fas fa-check-circle mr-1"></i>
                                                         Attribuer

@@ -85,11 +85,37 @@ class adminController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $max= User::find($id)->max('listeatt');
         $employe = User::find($id);
+        if($request->has('modifierListeAttente') && Auth::user()->can('update' , $employe)){
+            /*$validated = $request->validate([
+                intval($request->numero) => 'required|min:1',
+            ]);*/
+            if($request->numero != 0)
+            {
+            if($request->numero < $max){
+                $employe->update(['listeatt' => $request->numero]);
+                $users = User::where('listeatt' , '>=' , $request->numero)->where('id' , '!=' , $employe->id)->get();
+                foreach($users as $user){
+                    $user->update(['listeatt' => intval($user->listeatt) + 1 ]);
+                }
+            }
+            else{
+                $nombre = $employe->listeatt;
+                $employe->update(['listeatt' => $max]);
+                $users = User::where('listeatt' , '>=' ,$nombre)->where('id' , '!=' , $employe->id)->get();
+                foreach($users as $user){
+                    $user->update(['listeatt' => intval($user->listeatt) - 1 ]);
+                }
+                
+            }
+        }
+            return redirect('reservation');
+        }
         if(Auth::user()->can('update',$employe)){
             $password = $employe->password;
             $role = $employe->role;
-            if($request->password != null)
+            if($request->password!= null)
                 $password = Hash::make($request->password);
             if($request->role != null)
                 $role = intval($request->role);
@@ -101,6 +127,16 @@ class adminController extends Controller
                 'role' => $role,
             ]);
             return redirect('/admin');
+        }
+        return redirect()->back();
+    }
+
+
+
+    public function getModifListeAttente($id){
+        $user = User::find($id);
+        if(Auth::user()->can('update',$user)){
+            return view('listeattente.edit' , compact('user'));
         }
         return redirect()->back();
     }

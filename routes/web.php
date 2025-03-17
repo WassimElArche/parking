@@ -6,6 +6,10 @@ use App\Http\Controllers\adminController;
 use App\Http\Controllers\placeController;
 use App\Http\Controllers\reservationController;
 
+
+
+
+
 Route::get('/', function () {
     return redirect('/login');
 });
@@ -20,8 +24,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/listeattente' , [reservationController::class , 'getModifListeAttente'])->middleware(['auth']);
-Route::post('/listeattente' , [reservationController::class , 'modifierListeAttente'])->middleware(['auth']);
+require __DIR__.'/auth.php';
+
 
 
 Route::get('/reservationprise' , [reservationController::class , 'reservationpriseGet'])->middleware(['auth']);
@@ -36,4 +40,10 @@ Route::resource('/reservation' , reservationController::class)->middleware(['aut
 
 Route::get('/mon-espace' ,[ProfileController::class, 'espace'])->middleware(['auth']);
 
-require __DIR__.'/auth.php';
+Route::get("/listeattente/{id}" , [adminController::class , 'getModifListeAttente'])->middleware(['auth']);
+
+
+
+
+
+

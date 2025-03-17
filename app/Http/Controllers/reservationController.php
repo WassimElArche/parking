@@ -111,8 +111,6 @@ class reservationController extends Controller
             $users = User::where('listeatt' , '>', $reservation->users->listeatt)->get();
 
         if($request->has('resilier') && Auth::user()->can('resilier' , $reservation)){
-            //si a deja reserver
-
                 if($reservation->status == 1)
                     {
                         $reservation->update([

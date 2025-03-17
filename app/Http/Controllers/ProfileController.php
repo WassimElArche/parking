@@ -50,6 +50,10 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
+    public function test(ProfileUpdateRequest $request){
+        dd('ok');
+    }
+
     /**
      * Delete the user's account.
      */

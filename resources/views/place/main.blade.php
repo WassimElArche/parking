@@ -17,6 +17,13 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                 <div class="overflow-x-auto">
+                @if(count($places) == 0)
+                    <tr>
+                        <td colspan="5" class="px-4 py-2 text-center text-black">
+                            {{ __('Il n\'existe pas de place.') }}
+                        </td>
+                    </tr>
+                @else
                                 <table class="min-w-full">
                                     <thead class="bg-gray-50 dark:bg-gray-700">
                                         <tr>
@@ -73,6 +80,7 @@
                     
                 </tbody>
             </table>
+            @endif
                 </div>
             </div>
         </div>

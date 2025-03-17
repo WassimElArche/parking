@@ -100,7 +100,7 @@ class placeController extends Controller
         if(Auth::user()->can('delete' , $place)){
             $resas = reservation::where('place_id' , $place->id)->where('status',1)->get();
             foreach($resas as $resa){
-                $resa->update(['status'=> -1]);
+                $resa->update(['status'=> -1 , 'dateExpiration' => Carbon::now()->format('d-m-Y')]);
             }
             $place->delete();
             return redirect('/places');

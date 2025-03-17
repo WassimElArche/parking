@@ -132,7 +132,6 @@ class adminController extends Controller
     }
 
 
-
     public function getModifListeAttente($id){
         $user = User::find($id);
         if(Auth::user()->can('update',$user)){

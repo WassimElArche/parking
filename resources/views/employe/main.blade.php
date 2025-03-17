@@ -27,7 +27,7 @@
                 @if(session('valider'))
             <br>
                         <div class="alert alert-success">
-                            Réservation effectuée
+                        <i class="fa-solid fa-check"></i> Réservation effectuée
                         </div>
                 @endif
 @endsection
